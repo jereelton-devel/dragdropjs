@@ -1,0 +1,10 @@
+*.log
+*.xls
+*.csv
+*.xlsx
+*.zip
+*testes*
+*old*
+*.pdf
+*.doc*
+*.dat
