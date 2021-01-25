@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-unset($_SESSION['loggerlogin']);
+unset($_SESSION['dragdropjslogin']);
 //session_unset();
 //session_destroy();
 

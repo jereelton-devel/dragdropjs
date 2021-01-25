@@ -6,8 +6,8 @@ session_start();
 ini_set('display_errors', TRUE);
 ini_set('display_startup_errors', TRUE);*/
 
-if(!isset($_SESSION['loggerlogin']) || $_SESSION['loggerlogin'] == "") {
-    header("location:apilogin.php");
+if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
+    header("location:login.php");
 }
 ?>
 

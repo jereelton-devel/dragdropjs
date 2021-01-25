@@ -1,0 +1,262 @@
+
+* {
+    font-family: "Myriad Pro", sans-serif;
+}
+
+body {
+    background: rgb(15,110,255);
+    background: linear-gradient(305deg, rgba(15,15,15,0.8407563709077381) 80%, rgb(4, 29, 145) 100%);
+}
+
+#container-geral {
+    width: 100%;
+    margin: 0px auto;
+    height: auto;
+}
+
+#topo {
+    width: 100%;
+    height: 50px;
+    padding-top: 10px;
+    border-bottom: solid #555555 1px;
+}
+
+#sql-editor {
+    width: 28%;
+    float: left;
+    height: 750px;
+    padding: 1%;
+    border-right: solid #555555 1px;
+    background-color: #DEDEDE;
+}
+
+#sql-editor #input-sql-editor {
+    width: 98%;
+    height: 650px;
+    margin: 0px;
+    padding: 1%;
+    font-family: "Courier New";
+    color: #0000FF;
+}
+
+#resultados {
+    width: 70%;
+    height: 750px;
+    overflow: auto;
+    float: left;
+    background-color: #DEDEDE;
+}
+
+.padding-footer {
+    padding: 30px;
+}
+
+table, thead, tbody, th, tr, td {
+    border: solid #888888 1px !important;
+    background-color: #FFFFFF !important;
+}
+
+td {
+    padding: 3px;
+}
+
+th {
+    padding: 5px;
+    background-color: #DEDEDE !important;
+}
+
+#logger-view {
+    font-family: "Courier New";
+    width: 90%;
+    height: 100%;
+    padding: 1%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1000;
+    color: #0b2e13;
+    background-color: #222222;
+    overflow: auto;
+}
+
+#logger-view-controls {
+    text-align: center;
+    font-family: "Arial", "sans-serif";
+    width: 10%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 2000;
+    color: #FF66CC;
+    background-color: #4000A0;
+}
+
+#logger-view-alert {
+    text-align: center;
+    font-family: "Courier New";
+    width: 100%;
+    height: 20px;
+    position: relative;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 10px auto;
+}
+
+#bt-stop {
+    display: none;
+}
+
+#bt-start {
+    display: block;
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+select {
+    color: #1C005A;
+}
+
+button {
+    margin: 5px auto;
+    width: 90%;
+}
+
+pre {
+    /*width: 100%;
+    height: 100%;
+    overflow: auto;*/
+    border: none !important;
+    color: #3FD3CE;
+    background-color: #222222;
+}
+
+.text-error {
+    color: #FF0000;
+}
+#select-logs {
+    width: 90%;
+}
+
+#box-conteiner-login {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 100;
+    top: 0px;
+    left: 0px;
+    background: rgb(15,110,255);
+    background: linear-gradient(154deg, rgb(8, 119, 183) 30%, rgb(39, 43, 43) 50%);
+}
+
+#login-box {
+    color: #F89406;
+    text-align: left;
+    width: 35%;
+    height: 60%;
+    margin: 0px;
+    padding: 2%;
+    position: fixed;
+    z-index: 1000;
+    top: 15%;
+    left: 32%;
+    background-image: url("../img/box-login-back.png");
+    background-repeat: repeat;
+    border: solid #00FFFF 1px;
+    border-radius: 10px;
+}
+
+#login-box input {
+    width: 98%;
+    background-color: #F1F1E3;
+    color: #151515;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 15px auto;
+}
+
+#login-box .btn {
+    display: block;
+    width: 80px;
+    margin: 10px auto;
+}
+
+#logger-view-quit {
+    text-align: center;
+    font-family: "Arial", "sans-serif";
+    width: 100%;
+    height: 20px;
+    position: relative;
+    text-align: center;
+    color: #FFFFFF;
+    margin: 100px auto;
+}
+
+#a-quit {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+h2 {
+    font-size: 18px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+#div_container_bts {
+    width: 350px;
+    margin: 0px auto;
+}
+
+.bt-personalized-theme {
+    background: #0b2e13 !important;
+    color: #F89406 !important;
+    padding: 15px !important;
+    width: 150px !important;
+    border: solid #F89406 1px !important;
+    float: right;
+}
+
+.bt-personalized-default {
+    background: #AAAAAA !important;
+    color: #222222 !important;
+    padding: 15px !important;
+    width: 150px !important;
+    border: solid #222222 1px !important;
+    float: left;
+}
+
+#drop {
+    width: 100%;
+    height: 200px;
+    border: dashed 2px #888888;
+    display: block;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: #FFFFFF;
+    color: #AAAAAA;
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 60px;
+    font-size: 22px;
+}
+
+.file_sec_dragdrop {
+    border: dashed 1px; !important;
+}
+
+.ajs-button {
+    width: 40px !important;
+}
+
+.ajs-ok {
+    width: 40px !important;
+}
+
