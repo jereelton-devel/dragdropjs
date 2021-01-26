@@ -46,6 +46,9 @@ if(isset($_SESSION['dragdropjslogin'])) {
             Arraste um arquivo de login e solte aqui, ou selecione abaixo
         </div>
 
+        <div id="drop_login_ok">
+        </div>
+
         <span id="span_info_select">Selecione o Arquivo .sec</span>
         <input type="file" name="file_sec_dragdrop" id="file_sec_dragdrop" id="file_sec_dragdrop" value="" placeholder="Informe o arquivo SEC" />
         <input type="hidden" name="hidden_sec_dragdrop" id="hidden_sec_dragdrop" id="hidden_sec_dragdrop" value="" />

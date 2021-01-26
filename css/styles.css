@@ -248,6 +248,39 @@ h2 {
     font-size: 22px;
 }
 
+#drop_login_ok {
+    width: 100%;
+    height: 200px;
+    border: dashed 2px #888888;
+    display: none;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    background: #FFFFFF;
+    color: #AAAAAA;
+    text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 60px;
+    font-size: 22px;
+
+    background-image: url("../img/escudo-cadeado_24908-53003.jpeg");
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#drop_login_ok span {
+    float: right;
+    color: #BD362F;
+    margin-right: 10px;
+    width: 300px;
+    text-align: right;
+}
+
+#drop_login_ok .span_erro {color: #BD362F;}
+
+#drop_login_ok .span_ok {color: #3c763d;}
+
 .file_sec_dragdrop {
     border: dashed 1px; !important;
 }

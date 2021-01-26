@@ -36,10 +36,13 @@ function formReset() {
     $("#file_sec_dragdrop").show('fast');
     $("#span_info_select").show('fast');
 
+    $("#drop").show();
     $("#drop").html('Arraste um arquivo de login e solte aqui, ou selecione abaixo');
     $("#drop").css('color', '#AAAAAA');
     $("#drop").css('border', 'dashed 2px #888888');
     $("#drop").css('background', '#FFFFFF');
+
+    $("#drop_login_ok").hide();
 
 }
 
@@ -231,6 +234,24 @@ function extensionFileValidated(input_file, filetype) {
     }
 
     return true;
+}
+
+function userAuthenticationWidget() {
+
+    $("#out").html("<strong>Arquivo Carregado:</strong> " + fname);
+    $("#drop").hide();
+    $("#drop_login_ok").show();
+    $("#drop_login_ok").html('<span class="span_ok">Seu usuário esta autorizado</span>');
+
+}
+
+function userUnAuthenticationWidget() {
+
+    $("#out").html("<strong>Arquivo Carregado:</strong> " + fname);
+    $("#drop").hide();
+    $("#drop_login_ok").show();
+    $("#drop_login_ok").html('<span class="span_erro">Seu usuário não esta autorizado</span>');
+
 }
 
 /*
@@ -1108,28 +1129,24 @@ function ativarDragDrop() {
 
                         var result = btoa(event.target.result);
 
-                        var authSec = authBySecFile(result);
-
-                        if(authSec.status == "ERRO") {
-
-                            toastr.error(authSec.message);
-                            return;
-
-                        }
-
                         $("#hidden_sec_dragdrop").val(result);
                         $("#file_sec_dragdrop").val('');
                         $("#file_sec_dragdrop").hide('fast');
                         $("#span_info_select").hide('fast');
 
+                        var authSec = authBySecFile(result);
+
+                        if(authSec.status == "ERRO") {
+
+                            userUnAuthenticationWidget();
+                            toastr.error(authSec.message);
+                            return;
+
+                        }
+
                         if($("#hidden_sec_dragdrop").val() != "") {
 
-                            $("#out").html("<strong>Arquivo Carregado:</strong> " + fname);
-
-                            drop.innerHTML = 'Validated User Full';
-                            drop.style.borderColor = "#FF4A55";
-                            drop.style.color = "#FF4A55";
-                            drop.style.backgroundColor = "#f3f3d5";
+                            userAuthenticationWidget();
 
                         } else {
                             $("#out").html("<strong>Falha ao tentar carregar o arquivo!</strong>");
@@ -1186,6 +1203,8 @@ function ativarDragDrop() {
             drop.style.backgroundColor = "#FFFFFF";
         }
 
+        $("#drop").addEventListener();
+
         drop.addEventListener('dragenter', handleDragover, false);
         drop.addEventListener('dragover', handleDragover, false);
         drop.addEventListener('drop', handleDrop, false);
@@ -1215,28 +1234,25 @@ function ativarDragDrop() {
 
                         var result = btoa(event.target.result);
 
+                        $("#hidden_sec_dragdrop").val(result);
+                        $("#file_sec_dragdrop").val('');
+                        $("#file_sec_dragdrop").hide('fast');
+                        $("#span_info_select").hide('fast');
+
                         var authSec = authBySecFile(result);
 
                         if(authSec.status == "ERRO") {
 
+                            userUnAuthenticationWidget();
                             $("#file_sec_dragdrop").val('');
                             toastr.error(authSec.message);
                             return;
 
                         }
 
-                        $("#hidden_sec_dragdrop").val(result);
-                        $("#file_sec_dragdrop").val('');
-                        $("#file_sec_dragdrop").hide('fast');
-                        $("#span_info_select").hide('fast');
-
                         if ($("#hidden_sec_dragdrop").val() != "") {
-                            $("#out").html("<strong>Arquivo Carregado:</strong> " + fname);
 
-                            drop.innerHTML = 'Validated User Full';
-                            drop.style.borderColor = "#FF4A55";
-                            drop.style.color = "#FF4A55";
-                            drop.style.backgroundColor = "#f3f3d5";
+                            userAuthenticationWidget();
 
                         } else {
                             $("#out").html("<strong>Falha ao tentar carregar o arquivo!</strong>");
@@ -1268,6 +1284,7 @@ function ativarDragDrop() {
         }
 
         sec.addEventListener('change', handleFile, false);
+
     })();
 
 }
