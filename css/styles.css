@@ -5,7 +5,7 @@
 
 body {
     background: rgb(15,110,255);
-    background: linear-gradient(305deg, rgba(15,15,15,0.8407563709077381) 80%, rgb(4, 29, 145) 100%);
+    background: linear-gradient(150deg, rgb(8, 119, 183) 20%, rgb(39, 43, 43) 60%);
 }
 
 #container-geral {
@@ -65,21 +65,141 @@ th {
     background-color: #DEDEDE !important;
 }
 
-#logger-view {
-    font-family: "Courier New";
-    width: 90%;
+#dragdrop-view {
+    width: 70%;
     height: 100%;
-    padding: 1%;
     position: fixed;
     top: 0px;
     left: 0px;
     z-index: 1000;
     color: #0b2e13;
-    background-color: #222222;
-    overflow: auto;
+    background-color: #FFFFFF;
+    overflow: hidden;
+    text-align: left;
 }
 
-#logger-view-controls {
+#dragdrop-view h2 {
+    text-align: left;
+    background: rgb(15,110,255);
+    background: linear-gradient(150deg, rgb(39, 43, 43) 30%, rgb(8, 119, 183) 90%);
+    color: #F89406;
+    margin: 0px;
+    margin-bottom: 10px;
+    padding: 15px;
+}
+
+#dragdrop-view #drop {
+    width: 98%;
+    height: 78%;
+    border: dashed 2px #888888;
+    display: block;
+    border-radius: 0px;
+    margin-bottom: 10px;
+    background: #FFFFFF;
+    color: #AAAAAA;
+    text-align: left;
+    padding: 15px;
+    padding-top: 0px;
+    font-size: 22px;
+    margin: 0px auto;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#dragdrop-view #drop .div_item {
+    width: 100%;
+    font-size: 18px !important;
+    border-bottom: solid #888888 1px;
+    margin-top: 15px;
+    padding-bottom: 15px;
+    height: 100px;
+    clear: both;
+}
+
+#dragdrop-view #drop .div_item p {
+    float: left;
+    width: auto;
+    margin-left: 5px;
+    padding-top: 30px;
+}
+
+#dragdrop-view #drop .div_item img {
+    width: 76px;
+    margin: 5px;
+    float: left;
+}
+
+#dragdrop-view #drop_details {
+    width: 98%;
+    height: 10%;
+    border: solid 1px #888888;
+    display: block;
+    margin-bottom: 10px;
+    background: #FFFFFF;
+    color: #AAAAAA;
+    text-align: center;
+    padding: 15px;
+    font-size: 22px;
+    margin: 10px auto;
+}
+
+#dragdrop-products {
+    text-align: center;
+    font-family: "Arial", "sans-serif";
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    right: 10%;
+    z-index: 2000;
+    color: #F89406;
+    background-color: #FEFEF0;
+    overflow: hidden;
+}
+
+#dragdrop-products #div_item_container {
+    height: 92%;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#dragdrop-products h2 {
+    text-align: center;
+    background: rgb(15,110,255);
+    background: linear-gradient(150deg, rgb(8, 119, 183) 60%, rgb(8, 119, 183) 20%);
+    color: #F89406;
+    margin: 0px;
+    margin-bottom: 10px;
+    padding: 15px;
+}
+
+#dragdrop-products .div_item {
+    width: 96%;
+    height: 100px;
+    border: dashed #888888 1px;
+    margin: 10px auto;
+    border-radius: 10px;
+    color: #0b2e13 !important;
+    text-align: left;
+    cursor: move;
+}
+
+#dragdrop-products .div_item:hover {
+    background: #dca7a7;
+    color: #a94442;
+}
+
+#dragdrop-products .div_item img {
+    width: 76px;
+    margin: 5px;
+    float: left;
+}
+
+#dragdrop-products .div_item_details {
+    padding: 5px;
+}
+
+#dragdrop-view-controls {
     text-align: center;
     font-family: "Arial", "sans-serif";
     width: 10%;
@@ -88,11 +208,28 @@ th {
     top: 0px;
     right: 0px;
     z-index: 2000;
-    color: #FF66CC;
-    background-color: #4000A0;
+    color: #F89406;
+    background: rgb(15,110,255);
+    background: linear-gradient(150deg, rgb(8, 119, 183) 20%, rgb(39, 43, 43) 60%);
 }
 
-#logger-view-alert {
+#dragdrop-view-controls p {
+    padding: 15px;
+    margin-bottom: 15px;
+    border-bottom: solid #FFFFFF 1px;
+}
+
+#dragdrop-view-controls .btn-black {
+    background: #232323 !important;
+    border: solid #000000 1px;
+}
+
+#dragdrop-view-controls .btn-silver {
+    background: #8D8D8D !important;
+    border: solid #545454 1px;
+}
+
+#dragdrop-view-alert {
     text-align: center;
     font-family: "Courier New";
     width: 100%;
@@ -185,7 +322,7 @@ pre {
     margin: 10px auto;
 }
 
-#logger-view-quit {
+#dragdrop-view-quit {
     text-align: center;
     font-family: "Arial", "sans-serif";
     width: 100%;

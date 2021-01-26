@@ -20,6 +20,14 @@ $(document).ready(function() {
     $("#bt-cancel").on('click', function() {
         formReset();
     });
+
+    $("#bt-login").on('click', function() {
+        if($('#hidden_sec_dragdrop').val() != "") {
+            checkAuth();
+        } else {
+            toastr.error("Primeiro escolha um arquivo .sec devidamente autorizado !");
+        }
+    });
 });
 
 /*
@@ -123,7 +131,7 @@ function authBySecFile(param) {
     $.ajax({
         type: "POST",
         url: enpoint_auth,
-        data: {dauth:param},
+        data: {type:'auth', dauth:param},
         async: false,
         beforeSend: function(data) {
             console.log("Ajax-beforeSend");
@@ -143,6 +151,52 @@ function authBySecFile(param) {
     });
 
     return jsonDec;
+
+}
+
+function checkAuth(param) {
+
+    alertify.prompt( 'Atenção', 'Entre com a senha do arquivo .sec', '',
+        function(evt, value) {
+
+            var jsonDec = false;
+
+            $.ajax({
+                type: "POST",
+                url: enpoint_auth,
+                data: {type:'check', pass:btoa(value)},
+                async: false,
+                beforeSend: function(data) {
+                    console.log("Ajax-beforeSend");
+                },
+                success: function(data) {
+
+                    jsonDec = JSON.parse(data);
+
+                },
+                complete: function(data) {
+                    console.log("Ajax-complete");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR.responseText, textStatus, errorThrown);
+                    _errorAlertify(jqXHR.responseText);
+                }
+            });
+
+            if(jsonDec.status == 'OK') {
+                alertify.success(jsonDec.message);
+                setTimeout(function(){
+                    window.location.href = 'index.php';
+                }, 2000);
+            } else {
+                alertify.error(jsonDec.message);
+            }
+
+        },
+        function() {
+            alertify.error('Cancelado');
+        }
+    );
 
 }
 
@@ -251,6 +305,8 @@ function userUnAuthenticationWidget() {
     $("#drop").hide();
     $("#drop_login_ok").show();
     $("#drop_login_ok").html('<span class="span_erro">Seu usuário não esta autorizado</span>');
+
+    $('#hidden_sec_dragdrop').val('');
 
 }
 
@@ -1203,8 +1259,6 @@ function ativarDragDrop() {
             drop.style.backgroundColor = "#FFFFFF";
         }
 
-        $("#drop").addEventListener();
-
         drop.addEventListener('dragenter', handleDragover, false);
         drop.addEventListener('dragover', handleDragover, false);
         drop.addEventListener('drop', handleDrop, false);
@@ -1912,3 +1966,61 @@ function getComentarios(id){
 
     return comentario;
 }
+
+
+
+
+function allowDrop(e) {
+    e = e||window.event;
+
+    e.preventDefault();
+}
+
+var t = '';
+var i = '';
+var c = 0;
+var v = '';
+var soma = 0.00;
+
+function drag(e) {
+    e = e||window.event;
+
+    e.dataTransfer.setData("text", e.target.id);
+
+    //t = e.target.textContent.replace('\n', '');
+    t = e.target.innerHTML;
+   //i = e.target.firstElementChild.outerHTML;
+
+    console.log(t, i);
+
+    console.log("drag", e);
+}
+
+function drop(e) {
+    e = e||window.event;
+    e.preventDefault();
+    //var data = e.dataTransfer.getData("text");
+    //e.target.appendChild(document.getElementById(data));
+
+    //$("#drop").append('<div class="div_item">' + i + t + '</div>');
+    $("#drop").append('<div class="div_item">' + t + '</div>');
+
+    console.log("drop", e);
+    c++;
+
+    v = t.split("<p><strong>Valor:</strong> R$ ")[1];
+    v = v.split("</p>")[0];
+
+    soma = parseFloat(parseFloat(soma) + parseFloat(v));
+
+    $("#drop_details").html('Qtde: [' + c + '] - Total R$ ' + soma);
+}
+
+var drop_area = document.getElementById("drop");
+var draggable = document.getElementsByClassName("div_item")[0];
+
+draggable.ondragstart = drag;
+drop_area.ondrop = drop;
+drop_area.ondragover = allowDrop;
+
+

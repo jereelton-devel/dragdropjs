@@ -77,7 +77,7 @@ function callDevLoggerReset() {
 
 function callDevLoggerView() {
 
-    $("#logger-view-alert").html("Atualizando...");
+    $("#dragdrop-view-alert").html("Atualizando...");
 
     setTimeout(function() {
 
@@ -85,11 +85,11 @@ function callDevLoggerView() {
             {acao: 'viewlog', logname: logname},
             function (resp, textStatus, jqXHR) {
                 //console.log(atob(resp));
-                $("#logger-view").html("<pre>" + atob(resp).replaceAll('\n', '<br />').replaceAll('[Error]','<span class="text-error">[Error]</span>') + "</pre>");
-                $("#logger-view-alert").html("");
+                $("#dragdrop-view").html("<pre>" + atob(resp).replaceAll('\n', '<br />').replaceAll('[Error]','<span class="text-error">[Error]</span>') + "</pre>");
+                $("#dragdrop-view-alert").html("");
 
-                $("#logger-view pre").css("color",colorSave);
-                $("#logger-view pre").css("background-color",backgroundSave);
+                $("#dragdrop-view #drop").css("color",colorSave);
+                $("#dragdrop-view #drop").css("background-color",backgroundSave);
 
                 callDevLoggerList();
             }
@@ -141,27 +141,27 @@ $(document).ready(function(){
     });
 
     $("#bt-color-white-black").on('click', function(){
-        $("#logger-view pre").css("color","#000000");
-        $("#logger-view pre").css("background-color","#FFFFFF");
+        $("#dragdrop-view #drop").css("color","#000000");
+        $("#dragdrop-view #drop").css("background-color","#FFFFFF");
 
         colorSave = "#000000";
         backgroundSave = "#FFFFFF";
     });
 
     $("#bt-color-black-green").on('click', function(){
-        $("#logger-view pre").css("color","#00FF00");
-        $("#logger-view pre").css("background-color","#000000");
+        $("#dragdrop-view #drop").css("color","#00FF00");
+        $("#dragdrop-view #drop").css("background-color","#000000");
 
         colorSave = "#00FF00";
         backgroundSave = "#000000";
     });
 
     $("#bt-color-black-default").on('click', function(){
-        $("#logger-view pre").css("color","#3FD3CE");
-        $("#logger-view pre").css("background-color","#222222");
+        $("#dragdrop-view #drop").css("color","#888888");
+        $("#dragdrop-view #drop").css("background-color","#545454");
 
-        colorSave = "#3FD3CE";
-        backgroundSave = "#222222";
+        colorSave = "#888888";
+        backgroundSave = "#545454";
     });
 
     $("#bt-reset").on('click', function(){
