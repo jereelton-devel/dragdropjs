@@ -8,63 +8,6 @@ body {
     background: linear-gradient(150deg, rgb(8, 119, 183) 20%, rgb(39, 43, 43) 60%);
 }
 
-#container-geral {
-    width: 100%;
-    margin: 0px auto;
-    height: auto;
-}
-
-#topo {
-    width: 100%;
-    height: 50px;
-    padding-top: 10px;
-    border-bottom: solid #555555 1px;
-}
-
-#sql-editor {
-    width: 28%;
-    float: left;
-    height: 750px;
-    padding: 1%;
-    border-right: solid #555555 1px;
-    background-color: #DEDEDE;
-}
-
-#sql-editor #input-sql-editor {
-    width: 98%;
-    height: 650px;
-    margin: 0px;
-    padding: 1%;
-    font-family: "Courier New";
-    color: #0000FF;
-}
-
-#resultados {
-    width: 70%;
-    height: 750px;
-    overflow: auto;
-    float: left;
-    background-color: #DEDEDE;
-}
-
-.padding-footer {
-    padding: 30px;
-}
-
-table, thead, tbody, th, tr, td {
-    border: solid #888888 1px !important;
-    background-color: #FFFFFF !important;
-}
-
-td {
-    padding: 3px;
-}
-
-th {
-    padding: 5px;
-    background-color: #DEDEDE !important;
-}
-
 #dragdrop-view {
     width: 70%;
     height: 100%;
@@ -104,6 +47,9 @@ th {
     margin: 0px auto;
     overflow: hidden;
     overflow-y: auto;
+    /*background-image: url("../img/carrinho.jpeg");
+    background-position: top center;
+    background-repeat: no-repeat;*/
 }
 
 #dragdrop-view #drop .div_item {
@@ -143,6 +89,14 @@ th {
     margin: 10px auto;
 }
 
+#dragdrop-view #drop_details .div_qtd_item {
+    float: left;
+}
+
+#dragdrop-view #drop_details .div_sum_item {
+    float: right;
+}
+
 #dragdrop-products {
     text-align: center;
     font-family: "Arial", "sans-serif";
@@ -177,7 +131,8 @@ th {
     width: 96%;
     height: 100px;
     border: dashed #888888 1px;
-    margin: 10px auto;
+    margin: auto;
+    margin-bottom: 10px;
     border-radius: 10px;
     color: #0b2e13 !important;
     text-align: left;
@@ -274,6 +229,7 @@ pre {
 .text-error {
     color: #FF0000;
 }
+
 #select-logs {
     width: 90%;
 }

@@ -9,6 +9,7 @@ ini_set('display_startup_errors', TRUE);*/
 if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
     header("location:login.php");
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +48,6 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
     </div>
     <div id="drop_details">
     </div>
-    <input type="file" name="file_sec_dragdrop" id="file_sec_dragdrop" id="file_sec_dragdrop" value="" placeholder="Informe o arquivo SEC" />
 </div>
 
 <div id="dragdrop-products">
@@ -72,70 +72,77 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
         <div class="div_item" draggable="true">
             <img src="img/icone-produtos.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 1</p>
+                <p><strong>Nome:</strong> Item 2</p>
                 <p><strong>Valor:</strong> R$ 80,00</p>
                 <p><strong>Categoria:</strong> Alimentos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 2;80,00;Alimentos;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
             <img src="img/icone-produtos.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 1</p>
+                <p><strong>Nome:</strong> Item 3</p>
                 <p><strong>Valor:</strong> R$ 236,00</p>
                 <p><strong>Categoria:</strong> Acessórios</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 3;236,00;Acessórios;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
             <img src="img/icone-produtos.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 1</p>
+                <p><strong>Nome:</strong> Item 4</p>
                 <p><strong>Valor:</strong> R$ 896,00</p>
                 <p><strong>Categoria:</strong> Games</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 4;896,00;Games;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
             <img src="img/icone-produtos.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 1</p>
+                <p><strong>Nome:</strong> Item 5</p>
                 <p><strong>Valor:</strong> R$ 58,00</p>
                 <p><strong>Categoria:</strong> Ferramentas</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 5;58,00;Ferramentas;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
             <img src="img/icone-produtos.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 1</p>
+                <p><strong>Nome:</strong> Item 6</p>
                 <p><strong>Valor:</strong> R$ 630,00</p>
                 <p><strong>Categoria:</strong> Acessórios</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 6;630,00;Acessórios;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
             <img src="img/icone-produtos.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 1</p>
+                <p><strong>Nome:</strong> Item 7</p>
                 <p><strong>Valor:</strong> R$ 56,00</p>
                 <p><strong>Categoria:</strong> Alimentos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 7;56,00;Alimentos;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
             <img src="img/icone-produtos.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 1</p>
+                <p><strong>Nome:</strong> Item 8</p>
                 <p><strong>Valor:</strong> R$ 780,00</p>
                 <p><strong>Categoria:</strong> Autos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 8;780,00;Autos;Disponivel" />
             </div>
         </div>
 
@@ -166,7 +173,6 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
 <script type="text/javascript" src="./js/vendor/jquery/jquery-1.11.3.js"></script>
 <script type="text/javascript" src="./js/vendor/toastr/toastr.min.js"></script>
 <script type="text/javascript" src="./js/x-alertify/alertify-1.13.1.min.js"></script>
-<script type="text/javascript" src="./js/script.js"></script>
 <script type="text/javascript" src="./js/dragdropjs.js"></script>
 
 </body>
