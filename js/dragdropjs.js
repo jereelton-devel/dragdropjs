@@ -508,10 +508,14 @@ function itemsDragDrop() {
 
                 try {
 
+                    //console.log('ANTES', sumItem, valItem);
+
                     //Dados e Calculos
                     valItem = dataItem.split(";")[1];
-                    sumItem = (parseFloat(sumItem) + parseFloat(valItem)).toLocaleString('pt-br', {minimumFractionDigits: 2});
+                    sumItem = (parseFloat(sumItem) + parseFloat(valItem));
                     qtdItem++;
+
+                    //console.log('DEPOIS', sumItem, valItem);
 
                     var dataTmp = dataItem.split(";");
                     var htmlTmp = '<p>';
@@ -525,7 +529,13 @@ function itemsDragDrop() {
                     $("#drop").append('<div class="div_item">' + imgItem + htmlTmp + '</div>');
 
                     //Detalhes dragdrop
-                    $("#drop_details").html('<div class="div_qtd_item">Qtde: ' + qtdItem + '</div><div class="div_sum_item">Total: R$ ' + sumItem + '</div>');
+                    $("#drop_details").html('' +
+                        '<div class="div_qtd_item">' +
+                            'Qtde: ' + qtdItem +
+                        '</div>' +
+                        '<div class="div_sum_item">' +
+                            'Total: ' + sumItem.toLocaleString('pt-br',{style: 'currency', currency: 'BRL', minimumFractionDigits: 2}) +
+                        '</div>');
 
                 } catch (er) {
 
@@ -599,7 +609,7 @@ function itemsDragDrop() {
             //console.log("END");//Debug
             //console.log($(this))
 
-            valItem  = '';
+            valItem  = 0.00;
             dataItem = '';
             imgItem  = '';
 

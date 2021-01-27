@@ -59,90 +59,90 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
     <div id="div_item_container">
 
         <div class="div_item" draggable="true">
-            <img src="img/icone-produtos.png" />
+            <img src="img/ferramentas.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 1</p>
-                <p><strong>Valor:</strong> R$ 500,00</p>
+                <p><strong>Nome:</strong> Chaves de Boca</p>
+                <p><strong>Valor:</strong> R$ 1.259,99</p>
                 <p><strong>Categoria:</strong> Ferramentas</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 1;500,00;Ferramentas;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Chaves de Boca;1259.99;Ferramentas;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
-            <img src="img/icone-produtos.png" />
+            <img src="img/alimentos-1.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 2</p>
+                <p><strong>Nome:</strong> Prato P/4 pesssoas</p>
                 <p><strong>Valor:</strong> R$ 80,00</p>
                 <p><strong>Categoria:</strong> Alimentos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 2;80,00;Alimentos;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Prato P/4 pesssoas;80,00;Alimentos;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
-            <img src="img/icone-produtos.png" />
+            <img src="img/acessorios-1.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 3</p>
-                <p><strong>Valor:</strong> R$ 236,00</p>
+                <p><strong>Nome:</strong> Monitor AOC</p>
+                <p><strong>Valor:</strong> R$ 236,55</p>
                 <p><strong>Categoria:</strong> Acessórios</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 3;236,00;Acessórios;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Monitor AOC;236.55;Acessórios;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
-            <img src="img/icone-produtos.png" />
+            <img src="img/jogos-1.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 4</p>
+                <p><strong>Nome:</strong> Need For Speed 1</p>
                 <p><strong>Valor:</strong> R$ 896,00</p>
                 <p><strong>Categoria:</strong> Games</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 4;896,00;Games;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Need For Speed 1;896,00;Games;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
-            <img src="img/icone-produtos.png" />
+            <img src="img/ferramentas.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 5</p>
+                <p><strong>Nome:</strong> Jogo de Cahve L</p>
                 <p><strong>Valor:</strong> R$ 58,00</p>
                 <p><strong>Categoria:</strong> Ferramentas</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 5;58,00;Ferramentas;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Jogo de Cahve L;58,00;Ferramentas;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
-            <img src="img/icone-produtos.png" />
+            <img src="img/acessorios-1.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 6</p>
+                <p><strong>Nome:</strong> Itens de Série</p>
                 <p><strong>Valor:</strong> R$ 630,00</p>
                 <p><strong>Categoria:</strong> Acessórios</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 6;630,00;Acessórios;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Itens de Série;630,00;Acessórios;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
-            <img src="img/icone-produtos.png" />
+            <img src="img/alimentos-1.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 7</p>
+                <p><strong>Nome:</strong> Super Bife</p>
                 <p><strong>Valor:</strong> R$ 56,00</p>
                 <p><strong>Categoria:</strong> Alimentos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 7;56,00;Alimentos;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Super Bife;56,00;Alimentos;Disponivel" />
             </div>
         </div>
 
         <div class="div_item" draggable="true">
-            <img src="img/icone-produtos.png" />
+            <img src="img/autos-1.png" />
             <div class="div_item_details">
-                <p><strong>Nome:</strong> Item 8</p>
+                <p><strong>Nome:</strong> Roda Liga Leve 17</p>
                 <p><strong>Valor:</strong> R$ 780,00</p>
                 <p><strong>Categoria:</strong> Autos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Item 8;780,00;Autos;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Roda Liga Leve 17;780,00;Autos;Disponivel" />
             </div>
         </div>
 
@@ -152,17 +152,17 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
 
 <div id="dragdrop-view-controls">
 
-    <p>Opções</p>
-
-    <button class="btn btn-success" id="bt-start">Finalizar</button>
-    <button class="btn btn-warning" id="bt-reset">Cancelar</button>
-    <button class="btn btn-danger" id="bt-gen-item">Gerar Novo Item</button>
-
     <p>Cor de Fundo</p>
 
     <button class="btn btn-default" id="bt-color-white-black">Branco</button>
     <button class="btn btn-primary btn-black" id="bt-color-black-green">Preto</button>
     <button class="btn btn-info btn-silver" id="bt-color-black-default">Cinza</button>
+
+    <p>Opções</p>
+
+    <button class="btn btn-success" id="bt-start">Finalizar</button>
+    <button class="btn btn-warning" id="bt-reset">Cancelar</button>
+    <button class="btn btn-danger" id="bt-gen-item">Novo Item</button>
 
     <div id="dragdrop-view-quit">
         <a id="a-quit" href="logout.php">Sair</a>
