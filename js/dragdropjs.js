@@ -1,5 +1,6 @@
 
 var enpoint_auth = 'api/auth.php';
+var enpoint_item = 'api/items.php';
 var user_browser = '';
 
 /*Variaveis para uso na lista de itens drag and drop*/
@@ -74,7 +75,26 @@ $(document).ready(function() {
     });
 
     $("#bt-reset").on('click', function(){
-        console.log('CANCELAR');
+        //console.log('CANCELAR');
+        if(qtdItem > 0) {
+            alertify.confirm('Mensagem', 'Deseja mesmo cancelar a lista ?',
+
+                function () {
+                    $("#drop").html('');
+                    $("#drop_details").html('');
+                    dataItem = '';
+                    imgItem  = '';
+                    qtdItem  = 0;
+                    valItem  = 0.00;
+                    sumItem  = 0.00;
+                    except   = 0;
+                },
+
+                function () {
+                    alertify.error('Cancelado');
+                }
+            );
+        }
     });
 
     $("#bt-start").on('click', function(){
@@ -82,9 +102,47 @@ $(document).ready(function() {
     });
 
     $("#bt-gen-item").on('click', function(){
-        console.log('GERAR NOVO ITEM');
+        //console.log('GERAR NOVO ITEM');
+        var itemsCurrent = $("#div_item_container").html();
+        var newItem = getNewItem();
+
+        $("#div_item_container").html(newItem + itemsCurrent);
+
+        updateDragDropEvent();
+
     });
 });
+
+function getNewItem() {
+
+    var newItem = null;
+
+    $.ajax({
+        type: "POST",
+        url: enpoint_item,
+        data: {type:'newItem'},
+        async: false,
+        beforeSend: function(data) {
+            console.log("Ajax-beforeSend");
+        },
+        success: function(data) {
+
+            //console.log(newItem);
+            newItem = atob(data);
+
+        },
+        complete: function(data) {
+            console.log("Ajax-complete");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText, textStatus, errorThrown);
+            _errorAlertify(jqXHR.responseText);
+        }
+    });
+
+    return newItem;
+
+}
 
 function formReset() {
 
@@ -584,37 +642,42 @@ function itemsDragDrop() {
         body.addEventListener('dragover', handleDragoverPage, false);
         body.addEventListener('drop', handleDropPage, false);
 
-        //Elementos arrastaveis - Start
-        $('.div_item').on('dragstart',function(e){
-
-            //console.log("START");//Debug
-            //console.log($(this));
-            //console.log(e);
-            //console.log(e.target.innerHTML.split('value="')[1].split('">')[0]); //Item 8;780,00;Autos;Disponivel
-            //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
-
-            try {
-                dataItem = e.target.innerHTML.split('value="')[1].split('">')[0];
-                imgItem = e.target.firstElementChild.outerHTML;
-            } catch(er){
-                console.error('Exception: ' + er);
-                except = 1;
-            }
-
-        });
-
-        //Elementos arrastaveis - End
-        $('.div_item').on('dragend',function(e){
-
-            //console.log("END");//Debug
-            //console.log($(this))
-
-            valItem  = 0.00;
-            dataItem = '';
-            imgItem  = '';
-
-        });
+        updateDragDropEvent();
 
     })();
 
+}
+
+function updateDragDropEvent() {
+
+    //Elementos arrastaveis - Start
+    $('.div_item').on('dragstart',function(e){
+
+        //console.log("START");//Debug
+        //console.log($(this));
+        //console.log(e);
+        //console.log(e.target.innerHTML.split('value="')[1].split('">')[0]); //Item 8;780,00;Autos;Disponivel
+        //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
+
+        try {
+            dataItem = e.target.innerHTML.split('value="')[1].split('">')[0];
+            imgItem = e.target.firstElementChild.outerHTML;
+        } catch(er){
+            console.error('Exception: ' + er);
+            except = 1;
+        }
+
+    });
+
+    //Elementos arrastaveis - End
+    $('.div_item').on('dragend',function(e){
+
+        //console.log("END");//Debug
+        //console.log($(this))
+
+        valItem  = 0.00;
+        dataItem = '';
+        imgItem  = '';
+
+    });
 }
