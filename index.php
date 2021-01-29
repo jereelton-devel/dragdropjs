@@ -170,6 +170,47 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
 
 </div>
 
+<div id="dragdrop-block-payment"></div>
+<div id="div_container_payment">
+
+    <div id="div_extract_details" draggable="true">
+        <h2>Extrato</h2>
+    </div>
+
+    <div id="div_virtual_card">
+        <div id="div_card" draggable="true">
+
+            <div class="fields_card fields_card_titular">
+                <input type="text" name="" id="" class="" placeholder="NOME TITULAR" />
+            </div>
+            <div class="fields_card">
+                <input type="text" name="" id="" class="" placeholder="NUMERO DO CARTÃO" />
+            </div>
+            <div class="fields_card">
+                <input type="text" name="" id="" class="" placeholder="VALIDADE (mm/AA)" />
+            </div>
+            <div class="fields_card">
+                <input type="text" name="" id="" class="" placeholder="CVV" />
+            </div>
+
+        </div>
+    </div>
+
+    <div id="drop_payment">
+
+        <h2>PayNow</h2>
+
+        <p style="color: #BDBDBD;text-align: center;max-width: 50%;margin: -5px auto;">
+            Arraste e solte aqui o extrato de compra e seu cartão virtual
+        </p>
+
+        <input type="button" id="bt-payment" class="btn btn-success" value="Pagar" />
+        <input type="button" id="bt-cancel-payment" class="btn btn-danger" value="Cancelar" />
+
+    </div>
+
+</div>
+
 <script type="text/javascript" src="./js/vendor/jquery/jquery-1.11.3.js"></script>
 <script type="text/javascript" src="./js/vendor/toastr/toastr.min.js"></script>
 <script type="text/javascript" src="./js/x-alertify/alertify-1.13.1.min.js"></script>
