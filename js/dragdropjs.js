@@ -98,7 +98,14 @@ $(document).ready(function() {
     });
 
     $("#bt-start").on('click', function(){
-        console.log('FINALIZAR');
+        //console.log('FINALIZAR', sumItem, qtdItem);
+
+        if(sumItem > 0 && qtdItem > 0) {
+
+            $("#dragdrop-block-payment").show();
+            $("#div_container_payment").show();
+
+        }
     });
 
     $("#bt-gen-item").on('click', function(){
@@ -111,6 +118,15 @@ $(document).ready(function() {
         updateDragDropEvent();
 
     });
+
+    $("#bt-cancel-payment").on('click', function(){
+        //console.log('CANCELAR COMPRA');
+
+        $("#dragdrop-block-payment").hide();
+        $("#div_container_payment").hide();
+
+    });
+
 });
 
 function getNewItem() {
@@ -584,7 +600,7 @@ function itemsDragDrop() {
                     htmlTmp += '</p>';
 
                     //Lista dragdrop
-                    $("#drop").append('<div class="div_item">' + imgItem + htmlTmp + '</div>');
+                    $("#drop").append('<div class="div_item_lista" draggable="true">' + imgItem + htmlTmp + '</div>');
 
                     //Detalhes dragdrop
                     $("#drop_details").html('' +

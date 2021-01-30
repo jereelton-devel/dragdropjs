@@ -52,7 +52,7 @@ body {
     background-repeat: no-repeat;*/
 }
 
-#dragdrop-view #drop .div_item {
+#dragdrop-view #drop .div_item_lista {
     width: 100%;
     font-size: 18px !important;
     border-bottom: solid #888888 1px;
@@ -60,16 +60,21 @@ body {
     padding-bottom: 15px;
     height: 100px;
     clear: both;
+    cursor: move;
 }
 
-#dragdrop-view #drop .div_item p {
+#dragdrop-view #drop .div_item_lista:hover {
+    background: #c0f3f5;
+}
+
+#dragdrop-view #drop .div_item_lista p {
     float: left;
     width: auto;
     margin-left: 5px;
     padding-top: 30px;
 }
 
-#dragdrop-view #drop .div_item img {
+#dragdrop-view #drop .div_item_lista img {
     width: 76px;
     margin: 5px;
     float: left;
@@ -202,10 +207,11 @@ body {
     z-index: 10000;
     background: #000000;
     opacity: 0.7;
+    display: none;
 }
 
 #div_container_payment {
-    display: block;
+    display: none;
 }
 
 #div_extract_details {
@@ -220,6 +226,7 @@ body {
     overflow-y: auto;
     background: #FEFFDB;
     font-family: courier;
+    cursor: move;
 }
 
 #div_virtual_card {
@@ -332,7 +339,7 @@ select {
 button {
     margin: 5px auto;
     width: 60%;
-    height: 80px;
+    height: 70px;
 }
 
 pre {
@@ -396,6 +403,19 @@ pre {
     margin: 10px auto;
 }
 
+#dragdrop-trash {
+    margin: 30px auto;
+    width: 60%;
+    height: 100px;
+    color: #888888;
+    background: none;
+    text-align: center;
+    background-image: url("../img/trash.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+}
+
 #dragdrop-view-quit {
     text-align: center;
     font-family: "Arial", "sans-serif";
@@ -404,7 +424,7 @@ pre {
     position: relative;
     text-align: center;
     color: #FFFFFF;
-    margin: 80px auto;
+    margin: 20px auto;
 }
 
 #a-quit {

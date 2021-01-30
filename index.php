@@ -164,6 +164,8 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
     <button class="btn btn-warning" id="bt-reset">Cancelar</button>
     <button class="btn btn-danger" id="bt-gen-item">Novo Item</button>
 
+    <div id="dragdrop-trash"></div>
+
     <div id="dragdrop-view-quit">
         <a id="a-quit" href="logout.php">Sair</a>
     </div>
@@ -174,7 +176,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
 <div id="div_container_payment">
 
     <div id="div_extract_details" draggable="true">
-        <h2>Extrato</h2>
+        <h2>CUPOM FISCAL</h2>
     </div>
 
     <div id="div_virtual_card">
