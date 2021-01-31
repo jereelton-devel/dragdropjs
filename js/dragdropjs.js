@@ -115,6 +115,8 @@ $(document).ready(function() {
             $("#dragdrop-block-payment").show();
             $("#div_container_payment").show();
 
+            loadCupomFiscal();
+
         }
     });
 
@@ -138,6 +140,29 @@ $(document).ready(function() {
     });
 
 });
+
+function loadCupomFiscal() {
+
+    var listInnerText = $("#drop")[0].innerText.replaceAll("\n\n", "\n").split("\n");
+
+    console.log(listInnerText);
+
+    for(var i = 0; i < listInnerText.length; i++) {
+        console.log(listInnerText[i]);
+        var itemName = listInnerText[i].split(": ")[1].replace(" Categoria", "");
+        console.log(itemName);
+        var itemValue = listInnerText[i].split(": ")[4].replace(/[^0-9.,]/g, "");
+        console.log(itemValue);
+
+        $("#div_extract_details").append("<p><span class='span_item_name'>"+itemName+"</span> - <span class='span_item_value'>"+itemValue+"</span></p>");
+
+    }
+
+    var listDetails = $("#drop_details")[0].innerText.replaceAll("\n", "</p>\n<p>");
+
+    $("#div_extract_details").append("<hr /><br /><p>"+listDetails+"</p>");
+
+}
 
 function getNewItem() {
 
@@ -611,7 +636,9 @@ function itemsDragDrop() {
                     htmlTmp += " <strong>Nome Item:</strong> " + dataTmp[0];
                     htmlTmp += " <strong>Categoria:</strong> " + dataTmp[2];
                     htmlTmp += " <strong>Estoque:</strong> " + dataTmp[3];
-                    htmlTmp += " <strong>Valor:</strong> " + dataTmp[1];
+                    htmlTmp += " <strong>Valor:</strong> " +
+                        parseFloat(dataTmp[1]).
+                        toLocaleString('pt-br',{style: 'currency', currency: 'BRL', minimumFractionDigits: 2});
                     htmlTmp += '</p>';
 
                     //Lista dragdrop

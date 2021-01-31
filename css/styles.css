@@ -229,6 +229,45 @@ body {
     cursor: move;
 }
 
+#div_extract_details #div_header_cupom {
+    margin: 0px auto;
+    height: auto;
+    width: 90%;
+    text-align: left;
+    font-family: courier;
+}
+
+#div_extract_details #div_header_cupom > h5 {
+    font-weight: bold;
+    font-size: 20px;
+    text-transform: uppercase;
+    line-height: 25px;
+}
+
+#div_extract_details #div_header_cupom > p {
+    font-size: 10px;
+}
+
+#div_extract_details > p {
+    margin: 10px;
+    font-size: 18px;
+    font-family: courier;
+}
+
+#div_extract_details > p > .span_item_name {
+    float: left;
+    width: 75%;
+    text-align: left;
+    font-family: courier;
+}
+
+#div_extract_details > p > .span_item_value {
+    float: right;
+    width: 19%;
+    text-align: right;
+    font-family: courier;
+}
+
 #div_virtual_card {
     height: 29%;
     position: absolute;

@@ -76,7 +76,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
                 <p><strong>Valor:</strong> R$ 80,00</p>
                 <p><strong>Categoria:</strong> Alimentos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Prato P/4 pesssoas;80,00;Alimentos;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Prato P/4 pesssoas;80.00;Alimentos;Disponivel" />
             </div>
         </div>
 
@@ -98,7 +98,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
                 <p><strong>Valor:</strong> R$ 896,00</p>
                 <p><strong>Categoria:</strong> Games</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Need For Speed 1;896,00;Games;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Need For Speed 1;896.00;Games;Disponivel" />
             </div>
         </div>
 
@@ -109,7 +109,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
                 <p><strong>Valor:</strong> R$ 58,00</p>
                 <p><strong>Categoria:</strong> Ferramentas</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Jogo de Cahve L;58,00;Ferramentas;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Jogo de Cahve L;58.00;Ferramentas;Disponivel" />
             </div>
         </div>
 
@@ -120,7 +120,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
                 <p><strong>Valor:</strong> R$ 630,00</p>
                 <p><strong>Categoria:</strong> Acessórios</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Itens de Série;630,00;Acessórios;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Itens de Série;630.00;Acessórios;Disponivel" />
             </div>
         </div>
 
@@ -131,7 +131,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
                 <p><strong>Valor:</strong> R$ 56,00</p>
                 <p><strong>Categoria:</strong> Alimentos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Super Bife;56,00;Alimentos;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Super Bife;56.00;Alimentos;Disponivel" />
             </div>
         </div>
 
@@ -142,7 +142,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
                 <p><strong>Valor:</strong> R$ 780,00</p>
                 <p><strong>Categoria:</strong> Autos</p>
                 <p><strong>Estoque:</strong> Disponivel</p>
-                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Roda Liga Leve 17;780,00;Autos;Disponivel" />
+                <input type="hidden" name="hidden_item_details" id="hidden_item_details" value="Roda Liga Leve 17;780.00;Autos;Disponivel" />
             </div>
         </div>
 
@@ -176,7 +176,14 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
 <div id="div_container_payment">
 
     <div id="div_extract_details" draggable="true">
+        <div id="div_header_cupom">
+            <h5>Sistema DragDropJS LTDA</h5>
+            <p>RUA 3 Nº 1000, JD FLOR, SS, SETOR TESTE</p>
+            <p>CNPJ: 39299991/0001-99</p>
+        </div>
+        <hr />
         <h2>CUPOM FISCAL</h2>
+        <hr />
     </div>
 
     <div id="div_virtual_card">
