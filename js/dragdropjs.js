@@ -4,12 +4,16 @@ var enpoint_item = 'api/items.php';
 var user_browser = '';
 
 /*Variaveis para uso na lista de itens drag and drop*/
+var _origin  = '';
+var _destiny = '';
 var dataItem = '';
 var imgItem  = '';
 var qtdItem  = 0;
 var valItem  = 0.00;
 var sumItem  = 0.00;
 var except   = 0;
+var countItem =  0;
+var removeItem = '';
 
 //Mensageiro (Tooltip style)
 toastr.options = {
@@ -36,6 +40,7 @@ $(document).ready(function() {
         loginDragDrop();
     } else {
         itemsDragDrop();
+        activeItemDragDropEvent();
     }
 
     $("#bt-cancel").on('click', function() {
@@ -80,14 +85,19 @@ $(document).ready(function() {
             alertify.confirm('Mensagem', 'Deseja mesmo cancelar a lista ?',
 
                 function () {
-                    $("#drop").html('');
-                    $("#drop_details").html('');
+
                     dataItem = '';
                     imgItem  = '';
                     qtdItem  = 0;
                     valItem  = 0.00;
                     sumItem  = 0.00;
                     except   = 0;
+
+                    $("#drop").html('');
+                    $("#drop_details").html('');
+
+                    $('.div_item_lista').unbind('dragstart');
+                    $('.div_item_lista').unbind('dragend');
                 },
 
                 function () {
@@ -115,7 +125,7 @@ $(document).ready(function() {
 
         $("#div_item_container").html(newItem + itemsCurrent);
 
-        updateDragDropEvent();
+        activeItemDragDropEvent();
 
     });
 
@@ -558,12 +568,14 @@ function loginDragDrop() {
 
 function itemsDragDrop() {
 
-    var drop = document.getElementById('drop');
-    var body = document.getElementsByTagName('body')[0];
+    var drop  = document.getElementById('drop');
+    var trash = document.getElementById('dragdrop-trash');
+    var body  = document.getElementsByTagName('body')[0];
 
     (function () {
 
         if (!drop.addEventListener) return;
+        if (!trash.addEventListener) return;
 
         function handleDropPage(e) {
             e.stopPropagation();
@@ -573,12 +585,14 @@ function itemsDragDrop() {
 
         function handleDrop(e) {
 
-            //console.log(e); //Debug
+            //console.log("DROP");
+            //console.log(e);
 
             e.stopPropagation();
             e.preventDefault();
 
-            if(except == 0) {
+            //Controle de onde vem o item
+            if(except == 0 && _destiny == "#drop" && _origin == "dragdrop-products") {
 
                 try {
 
@@ -588,6 +602,7 @@ function itemsDragDrop() {
                     valItem = dataItem.split(";")[1];
                     sumItem = (parseFloat(sumItem) + parseFloat(valItem));
                     qtdItem++;
+                    countItem++;
 
                     //console.log('DEPOIS', sumItem, valItem);
 
@@ -600,7 +615,7 @@ function itemsDragDrop() {
                     htmlTmp += '</p>';
 
                     //Lista dragdrop
-                    $("#drop").append('<div class="div_item_lista" draggable="true">' + imgItem + htmlTmp + '</div>');
+                    $("#drop").append('<div id="item_'+countItem+'" class="div_item_lista" draggable="true">' + imgItem + htmlTmp + '</div>');
 
                     //Detalhes dragdrop
                     $("#drop_details").html('' +
@@ -610,6 +625,8 @@ function itemsDragDrop() {
                         '<div class="div_sum_item">' +
                             'Total: ' + sumItem.toLocaleString('pt-br',{style: 'currency', currency: 'BRL', minimumFractionDigits: 2}) +
                         '</div>');
+
+                    activeItemListaDragDropEvent();
 
                 } catch (er) {
 
@@ -623,6 +640,55 @@ function itemsDragDrop() {
             drop.style.borderColor = "#ABABAB";
             drop.style.color = "#ABABAB";
             drop.style.backgroundColor = "#FFFFFF";
+
+        }
+
+        function handleDropTrash(e) {
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            if(qtdItem <= 0 || sumItem <= 0) {
+                return false;
+            }
+
+            //Controle de onde vem o item
+            if(except == 0 && _destiny == "#dragdrop-trash" && _origin == "dragdrop-view") {
+
+                try {
+
+                    console.log(sumItem);
+
+                    //Dados e Calculos
+                    var valItemLista = dataItem.split("Valor: ")[1];
+                    sumItem = (parseFloat(sumItem) - parseFloat(valItemLista));
+                    qtdItem--;
+
+                    console.log(sumItem, valItemLista, qtdItem, removeItem);
+
+                    //Atualiza lista de itens
+                    $("#drop #" + removeItem).remove();
+
+                    //Atualiza detalhes de itens na view
+                    $("#drop_details").html('' +
+                        '<div class="div_qtd_item">' +
+                        'Qtde: ' + qtdItem +
+                        '</div>' +
+                        '<div class="div_sum_item">' +
+                        'Total: ' + sumItem.toLocaleString('pt-br',{style: 'currency', currency: 'BRL', minimumFractionDigits: 2}) +
+                        '</div>');
+
+                } catch (er) {
+
+                    console.error("Exception", er.message);
+                }
+
+            } else {
+                except = 0;
+            }
+
+            trash.style.backgroundColor = "";
+
         }
 
         function handleDragoverPage(e) {
@@ -634,10 +700,24 @@ function itemsDragDrop() {
         function handleDragover(e) {
             e.stopPropagation();
             e.preventDefault();
-            e.dataTransfer.dropEffect = 'copy';
-            drop.style.borderColor = "#00CBFE";
-            drop.style.color = "#00CBFE";
-            drop.style.backgroundColor = "#FFFFCC";
+
+            if(except == 0 && _destiny == "#drop" && _origin == "dragdrop-products") {
+                e.dataTransfer.dropEffect = 'copy';
+                drop.style.borderColor = "#00CBFE";
+                drop.style.color = "#00CBFE";
+                drop.style.backgroundColor = "#FFFFCC";
+            }
+        }
+
+        function handleDragoverTrash(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            if(except == 0 && _destiny == "#dragdrop-trash" && _origin == "dragdrop-view") {
+                e.dataTransfer.dropEffect = 'copy';
+
+                trash.style.backgroundColor = "#FFFFCC";
+            }
         }
 
         function handleExit(e) {
@@ -648,36 +728,53 @@ function itemsDragDrop() {
             drop.style.backgroundColor = "#FFFFFF";
         }
 
+        function handleExitTrash(e) {
+            e.stopPropagation();
+            e.preventDefault();
+
+            trash.style.backgroundColor = "";
+        }
+
         //Registros dos eventos drag and drop
         drop.addEventListener('dragenter', handleDragover, false);
         drop.addEventListener('dragover', handleDragover, false);
         drop.addEventListener('drop', handleDrop, false);
         drop.addEventListener('dragexit', handleExit, false);
 
+        //Trash events
+        trash.addEventListener('dragenter', handleDragoverTrash, false);
+        trash.addEventListener('dragover', handleDragoverTrash, false);
+        trash.addEventListener('drop', handleDropTrash, false);
+        trash.addEventListener('dragexit', handleExitTrash, false);
+
         body.addEventListener('dragenter', handleDragoverPage, false);
         body.addEventListener('dragover', handleDragoverPage, false);
         body.addEventListener('drop', handleDropPage, false);
-
-        updateDragDropEvent();
 
     })();
 
 }
 
-function updateDragDropEvent() {
+function activeItemDragDropEvent() {
+
+    $('.div_item').unbind('dragstart');
+    $('.div_item').unbind('dragend');
 
     //Elementos arrastaveis - Start
     $('.div_item').on('dragstart',function(e){
 
-        //console.log("START");//Debug
-        //console.log($(this));
-        //console.log(e);
+        console.log("START");//Debug
+        console.log($(this));
+        console.log(e);
+        //console.log(e.target.offsetParent.id);
         //console.log(e.target.innerHTML.split('value="')[1].split('">')[0]); //Item 8;780,00;Autos;Disponivel
         //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
 
         try {
+            _origin  = e.target.offsetParent.id;
+            _destiny = "#drop";
             dataItem = e.target.innerHTML.split('value="')[1].split('">')[0];
-            imgItem = e.target.firstElementChild.outerHTML;
+            imgItem  = e.target.firstElementChild.outerHTML;
         } catch(er){
             console.error('Exception: ' + er);
             except = 1;
@@ -691,9 +788,57 @@ function updateDragDropEvent() {
         //console.log("END");//Debug
         //console.log($(this))
 
+        _origin  = '';
+        _destiny = '';
         valItem  = 0.00;
         dataItem = '';
         imgItem  = '';
+
+    });
+}
+
+function activeItemListaDragDropEvent() {
+
+    $('.div_item_lista').unbind('dragstart');
+    $('.div_item_lista').unbind('dragend');
+
+    //Elementos arrastaveis - Start
+    $('.div_item_lista').on('dragstart',function(e){
+
+        console.log("START:ITEM:LISTA");//Debug
+        console.log($(this));
+        console.log(e);
+        //console.log(e.target.offsetParent.id);
+        console.log(e.target.innerText); //Nome Item: Chaves de Boca Categoria: Ferramentas Estoque: Disponivel Valor: 1259.99
+        //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
+
+        try {
+            _origin  = e.target.offsetParent.id;
+            _destiny = "#dragdrop-trash";
+            dataItem = e.target.innerText;
+            removeItem = e.target.id;
+
+            if(!dataItem) {
+                console.exception("Exception: invalid data element...");
+                except = 1;
+            }
+
+        } catch(er){
+            console.error('Exception: ' + er);
+            except = 1;
+        }
+
+    });
+
+    //Elementos arrastaveis - End
+    $('.div_item_lista').on('dragend',function(e){
+
+        //console.log("END");//Debug
+        //console.log($(this))
+
+        _origin  = '';
+        _destiny = '';
+        dataItem = '';
 
     });
 }
