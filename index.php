@@ -184,7 +184,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
                 <input type="text" name="name" id="name" class="" placeholder="NOME TITULAR" />
             </div>
             <div class="fields_card">
-                <input type="text" name="card" id="card" class="" placeholder="NUMERO DO CARTÃO" />
+                <input type="text" name="card" id="card" class="" placeholder="NUMERO DO CARTÃO" maxlength="16" />
             </div>
             <div class="fields_card">
                 <input type="text" name="valid" id="valid" class="" placeholder="VALIDADE (mm/AA)" />
@@ -217,6 +217,7 @@ if(!isset($_SESSION['dragdropjslogin']) || $_SESSION['dragdropjslogin'] == "") {
 <script type="text/javascript" src="./js/vendor/jquery/jquery-1.11.3.js"></script>
 <script type="text/javascript" src="./js/vendor/toastr/toastr.min.js"></script>
 <script type="text/javascript" src="./js/x-alertify/alertify-1.13.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.0/jspdf.umd.min.js"></script>
 <script type="text/javascript" src="./js/dragdropjs.js"></script>
 
 </body>

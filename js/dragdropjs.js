@@ -1,6 +1,19 @@
 
+var _resource = window.location.href;
+
+/*Variaveis de terceiros*/
+if(_resource.search("login") != -1) {
+    var jsPDF = "";
+} else {
+    var jsPDF = window.jspdf.jsPDF;
+}
+
+/*Variaveis de endpoint*/
 var enpoint_auth = 'api/auth.php';
 var enpoint_item = 'api/items.php';
+var enpoint_payment = 'api/payment.php';
+
+/*Variaveis genericas*/
 var user_browser = '';
 
 /*Variaveis para uso na lista de itens drag and drop*/
@@ -17,7 +30,7 @@ var removeItem = '';
 var valuePay = 0.00;
 var dataCard = '';
 
-//Mensageiro (Tooltip style)
+//Configuração do Mensageiro Toastr
 toastr.options = {
     "closeButton": false, // true/false
     "debug": false, // true/false
@@ -38,11 +51,17 @@ toastr.options = {
 
 $(document).ready(function() {
 
-    if(window.location.href.search("login") != -1) {
+    if(_resource.search("login") != -1) {
         loginDragDrop();
     } else {
         itemsDragDrop();
         activeItemDragDropEvent();
+
+        if(jsPDF && jsPDF.version) {
+            console.info('jsPDF is running, Version ' + jsPDF.version);
+        } else {
+            alertify.alert("Aviso", "Existe um problema na carga da lib jsPDF para gerar arquivos PDF");
+        }
     }
 
     $("#bt-cancel").on('click', function() {
@@ -74,32 +93,20 @@ $(document).ready(function() {
     });
 
     $("#bt-color-black-default").on('click', function(){
-        $("#dragdrop-view #drop").css("color","#888888");
+        $("#dragdrop-view #drop").css("color","#d7e515");
         $("#dragdrop-view #drop").css("background-color","#545454");
 
-        colorSave = "#888888";
+        colorSave = "#d7e515";
         backgroundSave = "#545454";
     });
 
     $("#bt-reset").on('click', function(){
-        //console.log('CANCELAR');
+
         if(qtdItem > 0) {
             alertify.confirm('Mensagem', 'Deseja mesmo cancelar a lista ?',
 
                 function () {
-
-                    dataItem = '';
-                    imgItem  = '';
-                    qtdItem  = 0;
-                    valItem  = 0.00;
-                    sumItem  = 0.00;
-                    except   = 0;
-
-                    $("#drop").html('');
-                    $("#drop_details").html('');
-
-                    $('.div_item_lista').unbind('dragstart');
-                    $('.div_item_lista').unbind('dragend');
+                    resetAllSettings();
                 },
 
                 function () {
@@ -110,7 +117,6 @@ $(document).ready(function() {
     });
 
     $("#bt-finalize").on('click', function(){
-        //console.log('FINALIZAR', sumItem, qtdItem);
 
         if(sumItem > 0 && qtdItem > 0) {
 
@@ -119,14 +125,14 @@ $(document).ready(function() {
 
             loadCupomFiscal();
             virtualCardPrepare();
-            paymentDragDrop();
             activePaymentDragDrop();
+            paymentDragDrop();
 
         }
     });
 
     $("#bt-gen-item").on('click', function(){
-        //console.log('GERAR NOVO ITEM');
+
         var itemsCurrent = $("#div_item_container").html();
         var newItem = getNewItem();
 
@@ -137,7 +143,6 @@ $(document).ready(function() {
     });
 
     $("#bt-cancel-payment").on('click', function(){
-        //console.log('CANCELAR COMPRA');
 
         $("#div_extract_details").html("");
         $("#div_cupom_fiscal_load").hide();
@@ -150,7 +155,153 @@ $(document).ready(function() {
 
     });
 
+    $("#bt-payment").on('click', function() {
+        payNow();
+    });
+
 });
+
+function activeDownloadProofPay(namePay, cardPay, valuePay, datePay, codePay) {
+
+    $("#a_download_proof_pay").on('click', function(){
+
+        var doc = new jsPDF();
+
+        doc.setFontSize(20);
+        doc.text("Comprovante de Pagamento", 35, 15);
+        doc.line(20, 20, 188, 20); // horizontal line
+
+        doc.setFontSize(15);
+        doc.text("Nome: " + namePay, 35, 33);
+        doc.text("Cartão: " + cardPay, 35, 43);
+        doc.text("Valor: R$ " + valuePay, 35, 53);
+        doc.text("Data: " + datePay, 35, 63);
+
+        doc.line(20, 90, 190, 90); // horizontal line
+
+        doc.text(codePay, 35, 83);
+
+        doc.setFontSize(10);
+        doc.text("Sistema DragDropJS LTDA", 35, 103);
+        doc.text("RUA 3 Nº 1000, JD FLOR, SETOR TESTE", 35, 113);
+        doc.text("CNPJ: 39299991/0001-99", 35, 123);
+
+        doc.line(20, 130, 188, 130); // horizontal line
+
+        doc.save(codePay+".pdf");
+
+    });
+}
+
+function paymentRequest(param) {
+
+    var jsonDec = false;
+
+    $.ajax({
+        type: "POST",
+        url: enpoint_payment,
+        data: {type:'pay', param: btoa(param)},
+        async: false,
+        beforeSend: function(data) {
+            console.log("Ajax-beforeSend");
+        },
+        success: function(data) {
+
+            jsonDec = JSON.parse(data);
+
+        },
+        complete: function(data) {
+            console.log("Ajax-complete");
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText, textStatus, errorThrown);
+            _errorAlertify(jqXHR.responseText);
+        }
+    });
+
+    return jsonDec;
+
+}
+
+function payNow() {
+
+    var customerName = dataCard.split(";")[0];
+
+    var cardValue = (dataCard.split(";")[1]).replace(/[^0-9]/gi, '');
+    cardValue = "************"+cardValue.substring(12,16);
+
+    var payValue = valuePay.replace(/[^0-9.,]/gi, "");
+    var requestPay = paymentRequest(customerName+payValue);
+    var codPay = requestPay.code;
+    var datePay = requestPay.date;
+
+    var proofPaySample = '' +
+        '<p>Pagamento Realizado com sucesso!</p>' +
+        '<br><br>' +
+        '<div id="div_proof_payment" draggable="true">' +
+        '<h3>Comprovante Pagamento</h3>' +
+        '<p>' +
+        '<span class="span_left">Nome:</span>' +
+        '<span class="span_right">'+customerName.toUpperCase()+'</span>' +
+        '</p>' +
+        '<p>' +
+        '<span class="span_left">Cartão:</span>' +
+        '<span class="span_right">'+cardValue+'</span>' +
+        '</p>' +
+        '<p>' +
+        '<span class="span_left">Valor:</span>' +
+        '<span class="span_right">'+valuePay+'</span>' +
+        '</p>' +
+        '<p>' +
+        '<span class="span_left">Data:</span>' +
+        '<span class="span_right">'+datePay+'</span>' +
+        '</p>' +
+        '<div id="div_cod_paey">'+codPay+'</div>' +
+        '<hr />' +
+        '<h5>Sistema DragDropJS LTDA</h5>' +
+        '<p>RUA 3 Nº 1000, JD FLOR, SS, SETOR TESTE</p>' +
+        '<p>CNPJ: 39299991/0001-99</p>' +
+        '</div>' +
+        '<br />' +
+        '<br />' +
+        '<a id="a_download_proof_pay">Baixar Comprovante</a>';
+
+    //Simulador de pagamento
+    if(dataCard && valuePay && requestPay.status == "OK") {
+        alertify.alert("Mensagem", proofPaySample);
+        resetAllSettings();
+        activeDownloadProofPay(customerName, cardValue, payValue, datePay, codPay);
+    } else {
+        alertify.error("Mensagem", "Houve um erro ao tentar efetuar o pagamento!");
+    }
+
+}
+
+function resetAllSettings() {
+
+    dataItem = '';
+    imgItem  = '';
+    qtdItem  = 0;
+    valItem  = 0.00;
+    sumItem  = 0.00;
+    except   = 0;
+
+    $("#drop").html('');
+    $("#drop_details").html('');
+
+    $('.div_item_lista').unbind('dragstart');
+    $('.div_item_lista').unbind('dragend');
+
+    $("#div_extract_details").html("");
+    $("#div_cupom_fiscal_load").hide();
+    $("#div_virtual_card_load").hide();
+    $("#dragdrop-block-payment").hide();
+    $("#div_container_payment").hide();
+
+    valuePay = 0.00;
+    dataCard = "";
+
+}
 
 function virtualCardPrepare() {
 
@@ -177,14 +328,10 @@ function loadCupomFiscal() {
 
     var listInnerText = $("#drop")[0].innerText.replaceAll("\n\n", "\n").split("\n");
 
-    console.log(listInnerText);
-
     for(var i = 0; i < listInnerText.length; i++) {
-        console.log(listInnerText[i]);
+
         var itemName = listInnerText[i].split(": ")[1].replace(" Categoria", "");
-        console.log(itemName);
         var itemValue = listInnerText[i].split(": ")[4].replace(/[^0-9.,]/g, "");
-        console.log(itemValue);
 
         $("#div_extract_details").append("<p><span class='span_item_name'>"+itemName+"</span> - <span class='span_item_value'>"+itemValue+"</span></p>");
 
@@ -441,13 +588,6 @@ function activeItemDragDropEvent() {
     //Elementos arrastaveis - Start
     $('.div_item').on('dragstart',function(e){
 
-        console.log("START");//Debug
-        console.log($(this));
-        console.log(e);
-        //console.log(e.target.offsetParent.id);
-        //console.log(e.target.innerHTML.split('value="')[1].split('">')[0]); //Item 8;780,00;Autos;Disponivel
-        //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
-
         try {
             _origin  = e.target.offsetParent.id;
             _destiny = "#drop";
@@ -462,9 +602,6 @@ function activeItemDragDropEvent() {
 
     //Elementos arrastaveis - End
     $('.div_item').on('dragend',function(e){
-
-        //console.log("END");//Debug
-        //console.log($(this))
 
         _origin  = '';
         _destiny = '';
@@ -482,13 +619,6 @@ function activeItemListaDragDropEvent() {
 
     //Elementos arrastaveis - Start
     $('.div_item_lista').on('dragstart',function(e){
-
-        console.log("START:ITEM:LISTA");//Debug
-        console.log($(this));
-        console.log(e);
-        //console.log(e.target.offsetParent.id);
-        console.log(e.target.innerText); //Nome Item: Chaves de Boca Categoria: Ferramentas Estoque: Disponivel Valor: 1259.99
-        //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
 
         try {
             _origin  = e.target.offsetParent.id;
@@ -511,9 +641,6 @@ function activeItemListaDragDropEvent() {
     //Elementos arrastaveis - End
     $('.div_item_lista').on('dragend',function(e){
 
-        //console.log("END");//Debug
-        //console.log($(this))
-
         _origin  = '';
         _destiny = '';
         dataItem = '';
@@ -532,12 +659,6 @@ function activePaymentDragDrop() {
     //Elementos arrastaveis - Start
     $('#div_extract_details').on('dragstart',function(e){
 
-        console.log("START:CUPOM");
-        console.log($(this));
-        console.log(e);
-        //console.log(e.target.offsetParent.id);//div_extract_details
-        console.log(e.target.innerText.split("Total: ").pop());
-
         try {
 
             _origin  = "#div_extract_details";
@@ -554,9 +675,6 @@ function activePaymentDragDrop() {
     //Elementos arrastaveis - End
     $('#div_extract_details').on('dragend',function(e){
 
-        //console.log("END");//Debug
-        //console.log($(this))
-
         _origin  = '';
         _destiny = '';
 
@@ -564,16 +682,6 @@ function activePaymentDragDrop() {
 
     //Elementos arrastaveis - Start
     $('#div_card').on('dragstart',function(e){
-
-        console.log("START:CARD");
-        console.log($(this));
-        console.log(e);
-        console.log(e.target.offsetParent.id);
-        console.log(e.target.innerText);
-        console.log(e.target.children[0].children[0].value);
-        console.log(e.target.children[1].children[0].value);
-        console.log(e.target.children[2].children[0].value);
-        console.log(e.target.children[3].children[0].value);
 
         try {
 
@@ -584,7 +692,9 @@ function activePaymentDragDrop() {
                 e.target.children[0].children[0].value == "" ||
                 e.target.children[1].children[0].value == "" ||
                 e.target.children[2].children[0].value == "" ||
-                e.target.children[3].children[0].value == ""
+                e.target.children[3].children[0].value == "" ||
+                isNaN(e.target.children[1].children[0].value) == true ||
+                e.target.children[1].children[0].value.toString().length != 16
             ) {
 
                 dataCard = "";
@@ -607,9 +717,6 @@ function activePaymentDragDrop() {
 
     //Elementos arrastaveis - End
     $('#div_card').on('dragend',function(e){
-
-        //console.log("END");//Debug
-        //console.log($(this))
 
         _origin  = '';
         _destiny = '';
@@ -826,9 +933,6 @@ function itemsDragDrop() {
 
         function handleDrop(e) {
 
-            //console.log("DROP");
-            //console.log(e);
-
             e.stopPropagation();
             e.preventDefault();
 
@@ -837,15 +941,16 @@ function itemsDragDrop() {
 
                 try {
 
-                    //console.log('ANTES', sumItem, valItem);
-
                     //Dados e Calculos
                     valItem = dataItem.split(";")[1];
-                    sumItem = (parseFloat(sumItem) + parseFloat(valItem));
+
+                    //console.log('ADD-ITEM(SOMAR): ', parseFloat(sumItem.toFixed(2)), "+", parseFloat(valItem), "=");
+
+                    sumItem = parseFloat(sumItem.toFixed(2)) + parseFloat(valItem);
                     qtdItem++;
                     countItem++;
 
-                    //console.log('DEPOIS', sumItem, valItem);
+                    //console.log(sumItem);
 
                     var dataTmp = dataItem.split(";");
                     var htmlTmp = '<p>';
@@ -900,14 +1005,21 @@ function itemsDragDrop() {
 
                 try {
 
-                    console.log(sumItem);
-
                     //Dados e Calculos
-                    var valItemLista = dataItem.split("Valor: ")[1];
-                    sumItem = (parseFloat(sumItem) - parseFloat(valItemLista));
+                    var valItemLista =
+                        (dataItem.split("Valor: ")[1])
+                        .replace(/[^0-9,.]/gi, '')
+                        .replace(".", "")
+                        .replace(",", ".");
+
+                    //console.log('DEL-ITEM(SUBTRAIR): ', parseFloat(sumItem.toFixed(2)), "-", parseFloat(valItemLista), "=");
+
+                    sumItem = parseFloat(sumItem.toFixed(2)) - parseFloat(valItemLista);
                     qtdItem--;
 
-                    console.log(sumItem, valItemLista, qtdItem, removeItem);
+                    if(sumItem <= 0) { sumItem = 0.00; qtdItem = 0;}
+
+                    //console.log(sumItem);
 
                     //Atualiza lista de itens
                     $("#drop #" + removeItem).remove();
@@ -1017,8 +1129,9 @@ function paymentDragDrop() {
             //Controle de onde vem o item
             if(except == 0 && _destiny == "#drop_payment" && (_origin == "div_virtual_card" || _origin == "#div_extract_details")) {
 
-                console.log("PAY----", valuePay);
-                if(valuePay <= 0) {
+                var v = parseFloat(valuePay.toString().replace(".", "").replace(",", ".").replace("R$", ""));
+
+                if(v <= 0) {
                     toastr.error("<strong>Aviso:</strong> Primeiro arraste o Cupom Fiscal !");
                 } else {
 
@@ -1027,12 +1140,11 @@ function paymentDragDrop() {
                     }
                 }
 
-                console.log("DATACARD-----", dataCard);
                 if(_origin == "div_virtual_card" && dataCard == "") {
                     toastr.error("<strong>Aviso:</strong> Os dados do cartão estão incorretos !");
                 } else {
 
-                    if(_origin == "div_virtual_card") {
+                    if(_origin == "div_virtual_card" && v > 0) {
                         $("#div_virtual_card_load").show();
                         $("#bt-payment").prop("disabled", false);
                     }
