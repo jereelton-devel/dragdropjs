@@ -14,6 +14,8 @@ var sumItem  = 0.00;
 var except   = 0;
 var countItem =  0;
 var removeItem = '';
+var valuePay = 0.00;
+var dataCard = '';
 
 //Mensageiro (Tooltip style)
 toastr.options = {
@@ -107,7 +109,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#bt-start").on('click', function(){
+    $("#bt-finalize").on('click', function(){
         //console.log('FINALIZAR', sumItem, qtdItem);
 
         if(sumItem > 0 && qtdItem > 0) {
@@ -116,6 +118,9 @@ $(document).ready(function() {
             $("#div_container_payment").show();
 
             loadCupomFiscal();
+            virtualCardPrepare();
+            paymentDragDrop();
+            activePaymentDragDrop();
 
         }
     });
@@ -134,14 +139,41 @@ $(document).ready(function() {
     $("#bt-cancel-payment").on('click', function(){
         //console.log('CANCELAR COMPRA');
 
+        $("#div_extract_details").html("");
+        $("#div_cupom_fiscal_load").hide();
+        $("#div_virtual_card_load").hide();
         $("#dragdrop-block-payment").hide();
         $("#div_container_payment").hide();
+
+        valuePay = 0.00;
+        dataCard = "";
 
     });
 
 });
 
+function virtualCardPrepare() {
+
+    $("#name").val("");
+    $("#card").val("");
+    $("#valid").val("");
+    $("#cvv").val("");
+
+}
+
 function loadCupomFiscal() {
+
+    var cuponHeader = '' +
+    '<div id="div_header_cupom">' +
+        '<h5>Sistema DragDropJS LTDA</h5>' +
+        '<p>RUA 3 Nº 1000, JD FLOR, SS, SETOR TESTE</p>' +
+        '<p>CNPJ: 39299991/0001-99</p>' +
+    '</div>' +
+    '<hr />' +
+    '<h2>CUPOM FISCAL</h2>' +
+    '<hr />';
+
+    $("#div_extract_details").html(cuponHeader);
 
     var listInnerText = $("#drop")[0].innerText.replaceAll("\n\n", "\n").split("\n");
 
@@ -399,6 +431,190 @@ function userUnAuthenticationWidget() {
 
     $('#hidden_sec_dragdrop').val('');
 
+}
+
+function activeItemDragDropEvent() {
+
+    $('.div_item').unbind('dragstart');
+    $('.div_item').unbind('dragend');
+
+    //Elementos arrastaveis - Start
+    $('.div_item').on('dragstart',function(e){
+
+        console.log("START");//Debug
+        console.log($(this));
+        console.log(e);
+        //console.log(e.target.offsetParent.id);
+        //console.log(e.target.innerHTML.split('value="')[1].split('">')[0]); //Item 8;780,00;Autos;Disponivel
+        //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
+
+        try {
+            _origin  = e.target.offsetParent.id;
+            _destiny = "#drop";
+            dataItem = e.target.innerHTML.split('value="')[1].split('">')[0];
+            imgItem  = e.target.firstElementChild.outerHTML;
+        } catch(er){
+            console.error('Exception: ' + er);
+            except = 1;
+        }
+
+    });
+
+    //Elementos arrastaveis - End
+    $('.div_item').on('dragend',function(e){
+
+        //console.log("END");//Debug
+        //console.log($(this))
+
+        _origin  = '';
+        _destiny = '';
+        valItem  = 0.00;
+        dataItem = '';
+        imgItem  = '';
+
+    });
+}
+
+function activeItemListaDragDropEvent() {
+
+    $('.div_item_lista').unbind('dragstart');
+    $('.div_item_lista').unbind('dragend');
+
+    //Elementos arrastaveis - Start
+    $('.div_item_lista').on('dragstart',function(e){
+
+        console.log("START:ITEM:LISTA");//Debug
+        console.log($(this));
+        console.log(e);
+        //console.log(e.target.offsetParent.id);
+        console.log(e.target.innerText); //Nome Item: Chaves de Boca Categoria: Ferramentas Estoque: Disponivel Valor: 1259.99
+        //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
+
+        try {
+            _origin  = e.target.offsetParent.id;
+            _destiny = "#dragdrop-trash";
+            dataItem = e.target.innerText;
+            removeItem = e.target.id;
+
+            if(!dataItem) {
+                console.exception("Exception: invalid data element...");
+                except = 1;
+            }
+
+        } catch(er){
+            console.error('Exception: ' + er);
+            except = 1;
+        }
+
+    });
+
+    //Elementos arrastaveis - End
+    $('.div_item_lista').on('dragend',function(e){
+
+        //console.log("END");//Debug
+        //console.log($(this))
+
+        _origin  = '';
+        _destiny = '';
+        dataItem = '';
+
+    });
+}
+
+function activePaymentDragDrop() {
+
+    $('#div_extract_details').unbind('dragstart');
+    $('#div_extract_details').unbind('dragend');
+
+    $('#div_card').unbind('dragstart');
+    $('#div_card').unbind('dragend');
+
+    //Elementos arrastaveis - Start
+    $('#div_extract_details').on('dragstart',function(e){
+
+        console.log("START:CUPOM");
+        console.log($(this));
+        console.log(e);
+        //console.log(e.target.offsetParent.id);//div_extract_details
+        console.log(e.target.innerText.split("Total: ").pop());
+
+        try {
+
+            _origin  = "#div_extract_details";
+            _destiny = "#drop_payment";
+            valuePay = e.target.innerText.split("Total: ").pop();
+
+        } catch(er){
+            console.error('Exception: ' + er);
+            except = 1;
+        }
+
+    });
+
+    //Elementos arrastaveis - End
+    $('#div_extract_details').on('dragend',function(e){
+
+        //console.log("END");//Debug
+        //console.log($(this))
+
+        _origin  = '';
+        _destiny = '';
+
+    });
+
+    //Elementos arrastaveis - Start
+    $('#div_card').on('dragstart',function(e){
+
+        console.log("START:CARD");
+        console.log($(this));
+        console.log(e);
+        console.log(e.target.offsetParent.id);
+        console.log(e.target.innerText);
+        console.log(e.target.children[0].children[0].value);
+        console.log(e.target.children[1].children[0].value);
+        console.log(e.target.children[2].children[0].value);
+        console.log(e.target.children[3].children[0].value);
+
+        try {
+
+            _origin = e.target.offsetParent.id; //div_virtual_card
+            _destiny = "#drop_payment";
+
+            if(
+                e.target.children[0].children[0].value == "" ||
+                e.target.children[1].children[0].value == "" ||
+                e.target.children[2].children[0].value == "" ||
+                e.target.children[3].children[0].value == ""
+            ) {
+
+                dataCard = "";
+
+            } else {
+
+                dataCard =
+                    e.target.children[0].children[0].value + ";" +
+                    e.target.children[1].children[0].value + ";" +
+                    e.target.children[2].children[0].value + ";" +
+                    e.target.children[3].children[0].value;
+            }
+
+        } catch (er) {
+            console.error('Exception: ' + er);
+            except = 1;
+        }
+
+    });
+
+    //Elementos arrastaveis - End
+    $('#div_card').on('dragend',function(e){
+
+        //console.log("END");//Debug
+        //console.log($(this))
+
+        _origin  = '';
+        _destiny = '';
+
+    });
 }
 
 function loginDragDrop() {
@@ -782,90 +998,82 @@ function itemsDragDrop() {
 
 }
 
-function activeItemDragDropEvent() {
+function paymentDragDrop() {
 
-    $('.div_item').unbind('dragstart');
-    $('.div_item').unbind('dragend');
+    $('#drop_payment').unbind('drop');
+    $('#drop_payment').unbind('dragover');
 
-    //Elementos arrastaveis - Start
-    $('.div_item').on('dragstart',function(e){
+    var drop_pay = document.getElementById('drop_payment');
 
-        console.log("START");//Debug
-        console.log($(this));
-        console.log(e);
-        //console.log(e.target.offsetParent.id);
-        //console.log(e.target.innerHTML.split('value="')[1].split('">')[0]); //Item 8;780,00;Autos;Disponivel
-        //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
+    (function () {
 
-        try {
-            _origin  = e.target.offsetParent.id;
-            _destiny = "#drop";
-            dataItem = e.target.innerHTML.split('value="')[1].split('">')[0];
-            imgItem  = e.target.firstElementChild.outerHTML;
-        } catch(er){
-            console.error('Exception: ' + er);
-            except = 1;
-        }
+        if (!drop_pay.addEventListener) return;
 
-    });
+        function handleDrop(e) {
 
-    //Elementos arrastaveis - End
-    $('.div_item').on('dragend',function(e){
+            e.stopPropagation();
+            e.preventDefault();
 
-        //console.log("END");//Debug
-        //console.log($(this))
+            //Controle de onde vem o item
+            if(except == 0 && _destiny == "#drop_payment" && (_origin == "div_virtual_card" || _origin == "#div_extract_details")) {
 
-        _origin  = '';
-        _destiny = '';
-        valItem  = 0.00;
-        dataItem = '';
-        imgItem  = '';
+                console.log("PAY----", valuePay);
+                if(valuePay <= 0) {
+                    toastr.error("<strong>Aviso:</strong> Primeiro arraste o Cupom Fiscal !");
+                } else {
 
-    });
-}
+                    if(_origin == "#div_extract_details") {
+                        $("#div_cupom_fiscal_load").show();
+                    }
+                }
 
-function activeItemListaDragDropEvent() {
+                console.log("DATACARD-----", dataCard);
+                if(_origin == "div_virtual_card" && dataCard == "") {
+                    toastr.error("<strong>Aviso:</strong> Os dados do cartão estão incorretos !");
+                } else {
 
-    $('.div_item_lista').unbind('dragstart');
-    $('.div_item_lista').unbind('dragend');
+                    if(_origin == "div_virtual_card") {
+                        $("#div_virtual_card_load").show();
+                        $("#bt-payment").prop("disabled", false);
+                    }
+                }
 
-    //Elementos arrastaveis - Start
-    $('.div_item_lista').on('dragstart',function(e){
-
-        console.log("START:ITEM:LISTA");//Debug
-        console.log($(this));
-        console.log(e);
-        //console.log(e.target.offsetParent.id);
-        console.log(e.target.innerText); //Nome Item: Chaves de Boca Categoria: Ferramentas Estoque: Disponivel Valor: 1259.99
-        //console.log(e.target.firstElementChild.outerHTML); //<img src="img/icone-produtos.png">
-
-        try {
-            _origin  = e.target.offsetParent.id;
-            _destiny = "#dragdrop-trash";
-            dataItem = e.target.innerText;
-            removeItem = e.target.id;
-
-            if(!dataItem) {
-                console.exception("Exception: invalid data element...");
-                except = 1;
+            } else {
+                except = 0;
             }
 
-        } catch(er){
-            console.error('Exception: ' + er);
-            except = 1;
+            drop_pay.style.borderColor = "#ABABAB";
+            drop_pay.style.color = "#ABABAB";
+            drop_pay.style.backgroundColor = "#FFFFFF";
+
         }
 
-    });
+        function handleDragover(e) {
+            e.stopPropagation();
+            e.preventDefault();
 
-    //Elementos arrastaveis - End
-    $('.div_item_lista').on('dragend',function(e){
+            if(except == 0 && _destiny == "#drop_payment" && (_origin == "div_virtual_card" || _origin == "#div_extract_details")) {
+                e.dataTransfer.dropEffect = 'copy';
+                drop_pay.style.borderColor = "#00CBFE";
+                drop_pay.style.color = "#00CBFE";
+                drop_pay.style.backgroundColor = "#e9b9db";
+            }
+        }
 
-        //console.log("END");//Debug
-        //console.log($(this))
+        function handleExit(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            drop_pay.style.borderColor = "#ABABAB";
+            drop_pay.style.color = "#ABABAB";
+            drop_pay.style.backgroundColor = "#FFFFFF";
+        }
 
-        _origin  = '';
-        _destiny = '';
-        dataItem = '';
+        //Eventos pagamento dragdrop
+        drop_pay.addEventListener('dragenter', handleDragover, false);
+        drop_pay.addEventListener('dragover', handleDragover, false);
+        drop_pay.addEventListener('drop', handleDrop, false);
+        drop_pay.addEventListener('dragexit', handleExit, false);
 
-    });
+    })();
+
 }

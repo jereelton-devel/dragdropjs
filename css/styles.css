@@ -325,20 +325,52 @@ body {
     border: dashed #888;
 }
 
-#drop_payment > h2:nth-child(1) {
+#drop_payment h2 {
     font-size: 40px;
     color: #BDBDBD;
     font-style: italic;
     padding: 50px;
-    padding-top: 250px;
+    padding-top: 150px;
     padding-bottom: 0px;
 }
 
-#drop_payment > p:nth-child(2) {
+#drop_payment p {
     color: #BDBDBD;
     text-align: center;
     max-width: 50%;
     margin: -5px auto;
+}
+
+#drop_payment #div_cupom_fiscal_load {
+    width: 70%;
+    height: auto;
+    background: none;
+    margin: 40px auto;
+    text-align: left;
+    padding: 10px;
+    padding-left: 60px;
+    padding-top: 40px;
+    background-image: url("../img/checked.png");
+    background-size: contain;
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: none;
+}
+
+#drop_payment #div_virtual_card_load {
+    width: 70%;
+    height: auto;
+    background: none;
+    margin: 0px auto;
+    text-align: left;
+    padding: 10px;
+    padding-left: 60px;
+    padding-top: 40px;
+    background-image: url("../img/checked.png");
+    background-size: contain;
+    background-position: left center;
+    background-repeat: no-repeat;
+    display: none;
 }
 
 #bt-payment {
@@ -362,7 +394,7 @@ body {
     display: none;
 }
 
-#bt-start {
+#bt-finalize {
     display: block;
 }
 
